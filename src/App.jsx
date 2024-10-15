@@ -8,7 +8,7 @@ function App() {
   const [devices, setDevices] = useState([]); // 用於存儲設備列表
   const [streams, setStreams] = useState({}); // 存儲每個設備的流
   const [isVideoVisible, setIsVideoVisible] = useState({});
-
+  const visibleVideoCount = Object.values(isVideoVisible).filter(visible => visible).length;
 
   useEffect(() => {
     navigator.mediaDevices.enumerateDevices()
@@ -57,15 +57,15 @@ function App() {
                 setStreams={setStreams} 
                 setIsVideoVisible={setIsVideoVisible} 
                 isVideoVisible={isVideoVisible}/>
-      <div className='stream-container'>
-        {console.log('hihi')}
+      <div className={`stream-container`}>
+        {console.log(visibleVideoCount)}
         {videoRefs.current.map((videoRef, index) => ((
-          <div className={`stream ${isVideoVisible[videoRef.deviceId] ? '' : 'hidden'}`} key={videoRef.deviceId}>
-            <video ref={videoRef.ref} autoPlay playsInline></video>
+          <div className={`stream ${visibleVideoCount === 2 ? 'large' : ''} ${isVideoVisible[videoRef.deviceId] ? '' : 'hidden'}`} key={videoRef.deviceId}>
+            <video className={`${visibleVideoCount === 2 ? 'large' : ''}`}ref={videoRef.ref} autoPlay playsInline></video>
             <div className='overlay'><p>{devices[index]?.label || `鏡頭 ${index + 1}`}</p></div>
           </div>
         )))}
-          {/* isVideoVisible[videoRef.deviceId] */}
+
       </div>
     </>
   );

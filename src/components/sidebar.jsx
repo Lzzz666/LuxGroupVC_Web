@@ -1,7 +1,9 @@
 // sidebar.js
 import React from 'react';
 import Switch from '@mui/material/Switch';
-
+import { Button } from '@mui/material';
+import ScreenRecorder from './ScreenRecorder';
+import ScreenShot from './Screenshot';
 const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, isVideoVisible }) => {
     const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -51,6 +53,8 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
                     />
                 </div>
             ))}
+     
+            <ScreenShot />
         </div>
     );
 };
