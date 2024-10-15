@@ -1,0 +1,17 @@
+.App-header {
+    background-color: #f4f4f4;
+    min-height: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+
+.video-screen {
+    position: absolute; /* 相對於父元素的絕對定位 */
+    bottom: 50px;
+    left: 0; /* 對齊左側 */
+    margin-bottom: 0;
+}

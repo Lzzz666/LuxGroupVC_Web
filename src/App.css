@@ -61,11 +61,17 @@
   border-radius: 0.45em;
   background-color: #cddbcd3b;
   position: relative; /* 設置為相對定位，讓子元素可以絕對定位 */
+  /* border: #888 1px solid; */
+
 }
-.large-stream {
-  width: 90%; /* 當只有一個鏡頭時佔據較大空間 */
-  height: auto;
+
+.stream.large {
+  width: 200%; /* 設定為100%寬度 */
+  height: 100%; /* 設定為100%高度 */
+  margin-left: 0;
+  /* border: #61dafbaa 1px solid; */
 }
+
 .hidden {
   display: none;
 }
@@ -76,7 +82,13 @@ video {
   /* border: 1px solid black; */
 }
 
+video.large {
+  width: 100%;
+  height: 100%;
+}
+
 .stream-container {
+ 
   width: 90%;
   margin: 1em auto;
   margin-left: 200px;
@@ -91,9 +103,9 @@ video {
   position: absolute; /* 設置為絕對定位 */
   bottom: 0; 
   left: 10px; 
-
+  font-family: Arial, sans-serif;
   color: rgb(0, 0, 0); 
-  padding: 5px; 
+  padding: 3px; 
   border-radius: 5px; 
   width: 100%; 
   box-sizing: border-box; 
