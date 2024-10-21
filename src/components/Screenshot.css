@@ -10,8 +10,8 @@
   }
 
 .video-screen {
-    position: absolute; /* 相對於父元素的絕對定位 */
+    position: absolute; 
     bottom: 50px;
-    left: 0; /* 對齊左側 */
+    left: 0; 
     margin-bottom: 0;
 }
