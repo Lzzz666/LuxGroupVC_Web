@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://lzzz666.github.io/repository-name",
+  "homepage": "https://lzzz666.github.io/multi-stream-platform",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
