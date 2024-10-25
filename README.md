@@ -4,6 +4,9 @@
 
 This project is a **multi-streams demo platform** developed using **ReactJS**. It is designed to showcase multiple camera devices simultaneously, allowing users to compare and analyze their image results in real-time.
 
+## Quick use
+https://lzzz666.github.io/multi-stream-platform/
+
 ## Features
 
 - **Multi-Stream Display**: Simultaneous viewing of video feeds from multiple cameras.
