@@ -33,6 +33,13 @@
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #3c4043;
+    color: #000000;
+  }
+}
+
 .card {
   padding: 2em;
 }
@@ -59,10 +66,9 @@
   padding: 1em;
   color: rgb(0, 0, 0);
   border-radius: 0.45em;
-  background-color: #cddbcd3b;
+  background-color: #edf2fa;
   position: relative; /* 設置為相對定位，讓子元素可以絕對定位 */
   /* border: #888 1px solid; */
-
 }
 
 .stream.large {
@@ -104,6 +110,7 @@ video.large {
   bottom: 0; 
   left: 10px; 
   font-family: Arial, sans-serif;
+  font-weight: 550;
   color: rgb(0, 0, 0); 
   padding: 3px; 
   border-radius: 5px; 

@@ -22,8 +22,7 @@ function App() {
 
         videoDevices.forEach(device => {
           navigator.mediaDevices.getUserMedia({
-            video: { deviceId: device.deviceId }
-          }).then(stream => {
+            video: {deviceId: device.deviceId}}).then(stream => {
             const videoRef = videoRefs.current.find(ref => ref.deviceId === device.deviceId);
             console.log('videoRef',videoRef);
 
