@@ -24,8 +24,7 @@ function App() {
               videoRefs={videoRefs}
               setStreams={setStreams}
               isVideoVisible={isVideoVisible}
-              setIsVideoVisible={setIsVideoVisible
-              }/>
+              setIsVideoVisible={setIsVideoVisible}/>
     </>
   );
 }

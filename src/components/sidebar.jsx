@@ -13,6 +13,16 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
 
     const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
+    const checkConstraints = (stream, deviceId, resolution) => {
+        const track = stream.getVideoTracks()[0];
+        const constraints = track.getCapabilities();
+        console.log('constraints:', constraints);
+        if(constraints.deviceId != deviceId ||constraints.width.max < resolution.width || constraints.height.max < resolution.height){
+            console.log('不支援的解析度:', resolution);
+            return false;
+        }
+        return true;
+    }
     const gotStream = (stream,deviceId,checked=false) => {
         const videoRef = videoRefs.current.find(ref => ref.deviceId === deviceId);
         if (videoRef && videoRef.ref.current) {
@@ -49,7 +59,9 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
         }
     
         const msg = navigator.mediaDevices.getUserMedia(constraints)
-            .then(stream => {gotStream(stream,deviceId);})
+            .then(stream => {
+                if (!checkConstraints(stream, deviceId, constraints)) return;
+                gotStream(stream,deviceId);})
             .catch(err => {
                 console.error('無法更改攝像頭解析度:', err.message, err.name, err);
             });
@@ -59,10 +71,13 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
 
 
     const handleSwitchChange = (deviceId, checked) => {
+        console.log('deviceId:', deviceId, 'checked:', checked);
         if (checked) {
             const resolution = curRes[deviceId] || { width: 320, height: 180 };
+
             navigator.mediaDevices.getUserMedia({ video: { deviceId: deviceId, width: resolution.width, height: resolution.height } })
             .then(stream => {
+                if (!checkConstraints(stream, deviceId, resolution)) return;
                 gotStream(stream,deviceId,checked);
             }).catch(err => {
                 console.error('無法存取攝像頭:', err);
