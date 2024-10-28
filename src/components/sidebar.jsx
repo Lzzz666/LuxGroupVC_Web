@@ -1,25 +1,69 @@
 // sidebar.js
-import React from 'react';
+import { useState } from 'react';
 import Switch from '@mui/material/Switch';
-import { Button } from '@mui/material';
-import ScreenRecorder from './ScreenRecorder';
 import ScreenShot from './Screenshot';
+import './sidebar.css';
 const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, isVideoVisible }) => {
+
+    const [curRes, setCurRes] = useState({});
+    const p180Constraints = JSON.stringify( {width: {exact: 320}, height: {exact: 180}});
+    const p360Constraints =  JSON.stringify({width: {exact: 640}, height: {exact: 360}});
+    const hdConstraints =  JSON.stringify({width: {exact: 1280}, height: {exact: 720}});
+    const fullHdConstraints =  JSON.stringify({width: {exact: 1920}, height: {exact: 1080}});
+
     const label = { inputProps: { 'aria-label': 'Switch demo' } };
+
+    const gotStream = (stream,deviceId,checked=false) => {
+        const videoRef = videoRefs.current.find(ref => ref.deviceId === deviceId);
+        if (videoRef && videoRef.ref.current) {
+            videoRef.ref.current.srcObject = stream; // 更新視頻流
+            setStreams(prevStreams => ({
+                ...prevStreams,
+                [deviceId]: stream,
+            }));
+        }
+        if(checked){
+            setIsVideoVisible(prev => ({ ...prev, [deviceId]: true })); // 顯示視頻
+        }
+    };
+
+    const handleChangeResolution = (deviceId, resolution) => {
+
+        console.log('resolution:', resolution); // 新資料
+        setCurRes(prevResolutions => ({
+            ...prevResolutions,
+            [deviceId]: resolution,
+        }));
+
+        const constraints = {
+            video: {
+                deviceId: deviceId ,
+                width: resolution.width,
+                height: resolution.height
+            }
+        };
+  
+        if (streams[deviceId]) {
+            console.log('停止攝像頭:', deviceId);
+            streams[deviceId].getTracks().forEach(track => track.stop());
+        }
+    
+        const msg = navigator.mediaDevices.getUserMedia(constraints)
+            .then(stream => {gotStream(stream,deviceId);})
+            .catch(err => {
+                console.error('無法更改攝像頭解析度:', err.message, err.name, err);
+            });
+        console.log('msg', msg);
+        
+    };
+
 
     const handleSwitchChange = (deviceId, checked) => {
         if (checked) {
-            navigator.mediaDevices.getUserMedia({ video: { deviceId: deviceId } })
+            const resolution = curRes[deviceId] || { width: 320, height: 180 };
+            navigator.mediaDevices.getUserMedia({ video: { deviceId: deviceId, width: resolution.width, height: resolution.height } })
             .then(stream => {
-                const videoRef = videoRefs.current.find(ref => ref.deviceId === deviceId);
-                if (videoRef && videoRef.ref.current) {
-                    videoRef.ref.current.srcObject = stream; // 設置視頻流
-                    setStreams(prevStreams => ({
-                        ...prevStreams,
-                        [deviceId]: stream,
-                    }));
-                    setIsVideoVisible(prev => ({ ...prev, [deviceId]: true })); // 顯示視頻
-                }
+                gotStream(stream,deviceId,checked);
             }).catch(err => {
                 console.error('無法存取攝像頭:', err);
             });
@@ -51,9 +95,14 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
                         checked={isVideoVisible[device.deviceId] || false}
                         onChange={(e) => handleSwitchChange(device.deviceId, e.target.checked)}
                     />
+                    <select onChange={(event) => handleChangeResolution(device.deviceId, JSON.parse(event.target.value))}>
+                        <option value={p180Constraints}>180p</option>
+                        <option value={p360Constraints}>360p</option>
+                        <option value={hdConstraints}>720p</option>
+                        <option value={fullHdConstraints}>1080p</option>
+                    </select>
                 </div>
             ))}
-     
             <ScreenShot />
         </div>
     );

@@ -1,0 +1,66 @@
+
+
+  .stream {
+    width: 28em;
+    margin: 0.25em;
+    padding: 1em;
+    color: rgb(0, 0, 0);
+    border-radius: 0.45em;
+    background-color: #edf2fa;
+    position: relative; /* 設置為相對定位，讓子元素可以絕對定位 */
+    /* border: #888 1px solid; */
+  }
+  
+  .stream.large {
+    width: 200%; /* 設定為100%寬度 */
+    height: 100%; /* 設定為100%高度 */
+    margin-left: 0;
+    /* border: #61dafbaa 1px solid; */
+  }
+  
+  .hidden {
+    display: none;
+  }
+
+
+  video {
+    width: 100%;
+    height: 240px;
+    /* border: 1px solid black; */
+  }
+  
+  video.large {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .stream-container {
+   
+    width: 90%;
+    margin: 1em auto;
+    margin-left: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  
+  }
+  
+  .overlay {
+    position: absolute; /* 設置為絕對定位 */
+    bottom: 0; 
+    left: 10px; 
+    font-family: Arial, sans-serif;
+    font-weight: 550;
+    color: rgb(0, 0, 0); 
+    padding: 3px; 
+    border-radius: 5px; 
+    width: 100%; 
+    box-sizing: border-box; 
+  }
+  
+  .overlay p {
+    margin: 0; 
+    text-align: left;
+  }
+  
