@@ -65,3 +65,9 @@ Ensure you have the following installed on your system:
 - **ReactJS**: Frontend library for building user interfaces.
 - **CSS/SCSS**: For custom styling and responsive layouts.
 
+
+## Todo
+- **Take photo**
+- **flex size**
+- **Support 4k**
+- **Image-recognition**
