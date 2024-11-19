@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://lzzz666.github.io/multi-stream-platform",
+  "homepage": "https://github.com/Lzzz666/LuxGroupVC_Web",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
