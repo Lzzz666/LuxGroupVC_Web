@@ -1,67 +1,108 @@
-  .stream {
-    width: 28em;
-    margin: 0.25em;
-    padding: 1em;
-    color: rgb(0, 0, 0);
-    border-radius: 0.45em;
-    background-color: #edf2fa;
-    position: relative; /* 設置為相對定位，讓子元素可以絕對定位 */
-    /* border: #888 1px solid; */
-  }
-  .stream.large {
-    width: 100%; /* 設置為100%寬度 */
-    height: 100%; /* 設置為100%高度 */
-    margin-left: 0; /* 移除左邊距 */
-  }
+.stream {
+  width: 28em;
+  margin: 0.25em;
+  padding: 1em;
+  color: rgb(0, 0, 0);
+  border-radius: 0.45em;
+  overflow: hidden;
+  position: relative; 
+  /* border: #000000 1px solid; */
+}
+.stream.large {
+  width: 100%; /* 設置為100%寬度 */
+  height: 100%; /* 設置為100%高度 */
+  margin-left: 0; /* 移除左邊距 */
+}
+
+.hidden {
+  display: none;
+}
+
+video {
+  width: 100%; 
+  height: auto; 
+}
+
+video.scale {
+  transform: scale(1.5); 
+  transform-origin: center; 
+  width: 100%; 
+  height: auto; 
+}
+
+video.large {
+  height: 60vh; /* 根據需要調整 */
   
-  
-  .hidden {
-    display: none;
-  }
+}
+
+.stream-container {
+  margin: 1em auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10%;
+  height: 60vh;
+  /* border: 1px solid #000000; */
+}
+
+.stream-container-pano{
+  margin: 1em auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10%;
+  height: 30vh;
+  /* border: 1px solid #000000; */
+}
 
 
-  video {
-    width: 100%;
-    height: 240px;
-    /* border: 1px solid black; */
-  }
-  
+.overlay {
+  position: absolute; /* 設置為絕對定位 */
+  bottom: 0; 
+  left: 10px; 
+  font-family: Arial, sans-serif;
+  font-weight: 550;
+  color: rgb(0, 0, 0); 
+  padding: 3px; 
+  border-radius: 5px; 
+  width: 100%; 
+  box-sizing: border-box; 
+}
 
-  video {
-    width: 100%; /* 默認寬度 */
-    height: auto; /* 高度自適應 */
-  }
+.overlay p {
+  top: 10px;
+  margin: 0; 
+  text-align: left;
+}
 
-  video.large {
-    height: 60vh; /* 根據需要調整 */
-  }
-
+@media (max-width: 850px) {
   .stream-container {
-    padding: 10px;
+    /* padding: 10px; */
     margin: 1em auto;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
     /* border: 1px solid #000000; */
-    margin-left: 200px;
   }
+}
+.reload{
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  background: transparent;
+}
+.reload_img{
+  width: 20px;
+}
 
-  .overlay {
-    position: absolute; /* 設置為絕對定位 */
-    bottom: 0; 
-    left: 10px; 
-    font-family: Arial, sans-serif;
-    font-weight: 550;
-    color: rgb(0, 0, 0); 
-    padding: 3px; 
-    border-radius: 5px; 
-    width: 100%; 
-    box-sizing: border-box; 
-  }
-  
-  .overlay p {
-    margin: 0; 
-    text-align: left;
-  }
-  
+.panoramic_camera{
+  position: relative; 
+  /* border: 1px solid #000000; */
+  width: 55em;
+  margin-top: 10px;
+  height: 28em;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10%;
+}

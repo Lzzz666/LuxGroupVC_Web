@@ -1,0 +1,16 @@
+.canvas.large{
+    position: absolute;
+    top: 0;
+    left: 0; 
+    /* border: 1px solid #fc0000; */
+    margin: 1em;
+    width: 96%; /* 默認寬度 */
+    height: 60vh;
+}
+.canvas{
+    position: absolute;
+    top: 0;
+    left: 0; 
+    width: 100%; /* 默認寬度 */
+    height: auto; /* 高度自適應 */
+}
