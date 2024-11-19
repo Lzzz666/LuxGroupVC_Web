@@ -30,14 +30,14 @@ export const detectFaces = async (model, videoRef, canvasRef,deviceId) => {
             ctx.strokeStyle = "blue";
             ctx.rect(scaledStart[0], scaledStart[1], scaledSize[0], scaledSize[1]);
             ctx.stroke();
-            faceCoordinates.push({
+            faceCoordinates.push([{
                 deviceId: deviceId,
                 timestamp: new Date().toISOString(),
                 x: scaledStart[0],
                 y: scaledStart[1],
                 width: scaledSize[0],
                 height: scaledSize[1]
-            });
+            }]);
         });
     }
     if (faceCoordinates.length > 0) {
@@ -47,7 +47,7 @@ export const detectFaces = async (model, videoRef, canvasRef,deviceId) => {
 
 export const sendFaceCoordinates = async (coordinates) => {
     try {
-        const response = await fetch('http://localhost:3000/face-coordinates', {
+        const response = await fetch('http://18.183.189.149:8000/face-coordinates', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
