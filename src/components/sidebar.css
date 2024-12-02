@@ -1,6 +1,6 @@
 .sidebar {
-  min-width: 110px;
-  width: 10%; 
+
+  width: 180px; 
   background-color: #f4f4f4; 
   padding: 20px; 
   position: fixed;
@@ -15,3 +15,6 @@
   }
 }
 
+.checkbox-wrapper{
+  margin: 15px;
+}

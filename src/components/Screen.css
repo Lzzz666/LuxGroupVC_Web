@@ -1,17 +1,18 @@
 .stream {
-  width: 28em;
-  margin: 0.25em;
-  padding: 1em;
+  width: 45%;
+  /* margin: 0.25em; */
+  /* padding: 1em; */
   color: rgb(0, 0, 0);
   border-radius: 0.45em;
-  overflow: hidden;
+  /* overflow: hidden; */
   position: relative; 
-  /* border: #000000 1px solid; */
+  /* border: 1px solid #000000; */
+
 }
 .stream.large {
   width: 100%; /* 設置為100%寬度 */
   height: 100%; /* 設置為100%高度 */
-  margin-left: 0; /* 移除左邊距 */
+  /* margin-left: 0; 移除左邊距 */
 }
 
 .hidden {
@@ -31,7 +32,14 @@ video.scale {
 }
 
 video.large {
-  height: 60vh; /* 根據需要調整 */
+  height: auto; /* 高度由比例決定 */
+  width: 100%; /* 可調整寬度 */
+  aspect-ratio: 16 / 9; /* 根據需要調整 */
+}
+video.small {
+  height: auto; /* 高度由比例決定 */
+  width: 100%; /* 可調整寬度 */
+  aspect-ratio: 16 / 9; /* 根據需要調整 */
   
 }
 
@@ -42,8 +50,25 @@ video.large {
   justify-content: center;
   margin-left: 10%;
   height: 60vh;
-  /* border: 1px solid #000000; */
+  /* border: 1px solid green; */
+  margin-left: 200px;
+  width: 80%; /* 可調整寬度 */
+  aspect-ratio: 16 / 9;
 }
+
+.stream-container.large {
+  margin: 1em auto;
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  margin-left: 10%;
+  height: 70vh;
+  margin-left: 100px;
+  width: 1200px; /* 可調整寬度 */
+  aspect-ratio: 16 / 9;
+  flex-wrap: wrap;
+}
+
 
 .stream-container-pano{
   margin: 1em auto;
@@ -52,27 +77,27 @@ video.large {
   justify-content: center;
   margin-left: 10%;
   height: 30vh;
-  /* border: 1px solid #000000; */
+  width: 100%;
+  /* border: 1px solid blue; */
 }
 
 
 .overlay {
   position: absolute; /* 設置為絕對定位 */
-  bottom: 0; 
-  left: 10px; 
+  /* bottom: 0;  */
+  left: 5px; 
   font-family: Arial, sans-serif;
   font-weight: 550;
   color: rgb(0, 0, 0); 
-  padding: 3px; 
-  border-radius: 5px; 
-  width: 100%; 
-  box-sizing: border-box; 
+  /* padding: 3px;  */
+  width: 50%; 
 }
 
 .overlay p {
   top: 10px;
   margin: 0; 
   text-align: left;
+  /* border: 1px solid #000000; */
 }
 
 @media (max-width: 850px) {
@@ -98,10 +123,10 @@ video.large {
 
 .panoramic_camera{
   position: relative; 
-  /* border: 1px solid #000000; */
+  /* border: 1px solid red; */
   width: 55em;
   margin-top: 10px;
-  height: 28em;
+  /* height: 31em; */
   align-items: center;
   justify-content: center;
   margin-left: 10%;

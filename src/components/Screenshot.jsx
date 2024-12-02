@@ -40,7 +40,7 @@ const ScreenShot =  () =>{
             <header className="App-header">
                 <video width={800} height={800} ref={videoRef} autoPlay controls/>
             </header>
-            <button onClick={isRecording? () => {
+            <button className={"my-button"}onClick={isRecording? () => {
                 
                 let tracks = videoRef.current.srcObject.getTracks()
                 tracks.forEach((t) => t.stop())
@@ -57,4 +57,4 @@ const ScreenShot =  () =>{
     );
 }
 
-export default ScreenShot ;
+export default ScreenShot ; 
