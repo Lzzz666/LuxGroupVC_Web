@@ -11,7 +11,6 @@ function App() {
   const [streams, setStreams] = useState({}); // 存儲每個設備的流
   const [isVideoVisible, setIsVideoVisible] = useState({});
   const canvasRefs = useRef([]); // 使用空數組來儲存 canvas 元素的引用
-  const zoomCanvasRefs = useRef([]);
   return (
     <>
       <Sidebar devices={devices} 

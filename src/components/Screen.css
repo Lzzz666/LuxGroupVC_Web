@@ -1,6 +1,6 @@
 .stream {
-  width: 45%;
-  /* margin: 0.25em; */
+  width:40%;
+  margin: 1em;
   /* padding: 1em; */
   color: rgb(0, 0, 0);
   border-radius: 0.45em;
@@ -36,6 +36,7 @@ video.large {
   width: 100%; /* 可調整寬度 */
   aspect-ratio: 16 / 9; /* 根據需要調整 */
 }
+
 video.small {
   height: auto; /* 高度由比例決定 */
   width: 100%; /* 可調整寬度 */
@@ -46,39 +47,13 @@ video.small {
 .stream-container {
   margin: 1em auto;
   display: flex;
+  flex-wrap: wrap; /* 啟用換行 */
   align-items: center;
   justify-content: center;
-  margin-left: 10%;
-  height: 60vh;
+  margin-left: 6%;
+  height: 80vh;
   /* border: 1px solid green; */
-  margin-left: 200px;
-  width: 80%; /* 可調整寬度 */
   aspect-ratio: 16 / 9;
-}
-
-.stream-container.large {
-  margin: 1em auto;
-  /* display: flex; */
-  align-items: center;
-  justify-content: center;
-  margin-left: 10%;
-  height: 70vh;
-  margin-left: 100px;
-  width: 1200px; /* 可調整寬度 */
-  aspect-ratio: 16 / 9;
-  flex-wrap: wrap;
-}
-
-
-.stream-container-pano{
-  margin: 1em auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 10%;
-  height: 30vh;
-  width: 100%;
-  /* border: 1px solid blue; */
 }
 
 

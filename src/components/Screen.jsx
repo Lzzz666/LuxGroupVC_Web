@@ -1,6 +1,7 @@
 import React, { useEffect} from 'react';
 import './Screen.css';
 import Canvas from './Canvas';
+import VideoCanvas from './pano';
 // import * as blazeface from '@tensorflow-models/blazeface';
 // import * as tf from '@tensorflow/tfjs';
 
@@ -13,10 +14,8 @@ const Screen = ({devices,setDevices,videoRefs,isVideoVisible,canvasRefs,panoflag
   function gotDevices(devices) {
       const videoDevices = devices.filter(device => device.kind === 'videoinput');
       setDevices(videoDevices); 
-      console.log('找到的攝像頭:', videoDevices);
       videoRefs.current = videoDevices.map(device => ({ deviceId: device.deviceId, ref: React.createRef() }));
       canvasRefs.current = videoDevices.map(device => ({ deviceId: device.deviceId, ref: React.createRef() }));
-
   }
 
   const reload = () => {
@@ -25,6 +24,7 @@ const Screen = ({devices,setDevices,videoRefs,isVideoVisible,canvasRefs,panoflag
       console.error('無法取得媒體設備:', err);
     });
   }
+
   useEffect(() => {
     navigator.mediaDevices.enumerateDevices().then(devices => {gotDevices(devices);})
       .catch(err => {
@@ -52,24 +52,7 @@ const Screen = ({devices,setDevices,videoRefs,isVideoVisible,canvasRefs,panoflag
         </div>
       ) : (
         <>
-          <div className='stream-container-pano'>
-            <div className='stream'></div>
-            <div className='stream'></div>
-          </div>
-          <div className='panoramic_camera'>
-            {videoRefs.current.map((videoRef, index) => (
-              <div 
-                className={` ${isVideoVisible[videoRef.deviceId] ? '' : 'hidden'}`}
-                key={videoRef.deviceId}
-              >
-                <video className={`large`} ref={videoRef.ref} autoPlay playsInline />
-                <Canvas canvasRefs={canvasRefs} index={index} visibleVideoCount={visibleVideoCount} />
-                <div className='overlay'>
-                  <p>{devices[index]?.label || `鏡頭 ${index + 1}`}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <VideoCanvas devices={devices}/>
         </>
       )}
       

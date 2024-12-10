@@ -1,0 +1,29 @@
+.pano-container {
+    display: flex;
+    flex-direction: column; /* 將子元素排列為垂直方向 */
+    align-items: center;    /* 水平置中 */
+    justify-content: center; /* 垂直置中 */
+    gap: 10px;              /* 上下間距 */
+    margin-left: 10%;
+    height: 80vh;
+    width: 100%;
+    /* border: 1px solid #111; */
+}
+  
+.face-container {
+    display: inline-block;
+    gap: 1s0px;
+    /* border: 1px solid #111; */
+    width: 1000px;
+}
+.smallcanvas {
+    width: 45%;
+    /* border: 1px solid #111; */
+}
+
+.maincanvas {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    /* border: 1px solid #111; */
+}

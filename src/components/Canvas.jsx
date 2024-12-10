@@ -26,7 +26,7 @@ export const detectFaces = async (model, videoRef, canvasRef,deviceId) => {
             const scaledSize = [size[0] * scaleX, size[1] * scaleY];
 
             ctx.beginPath();
-            ctx.lineWidth = "2";
+            ctx.lineWidth = "1";
             ctx.strokeStyle = "blue";
             ctx.rect(scaledStart[0], scaledStart[1], scaledSize[0], scaledSize[1]);
             ctx.stroke();
@@ -46,23 +46,7 @@ export const detectFaces = async (model, videoRef, canvasRef,deviceId) => {
 };
 
 export const sendFaceCoordinates = async (coordinates) => {
-    // try {
-    //     const response = await fetch('http://18.183.189.149:8000/face-coordinates', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(coordinates),
-    //     });
 
-    //     if (response.ok) {
-    //         console.log('Face coordinates sent successfully');
-    //     } else {
-    //         console.error('Failed to send face coordinates');
-    //     }
-    // } catch (error) {
-    //     console.error('Error sending face coordinates:', error);
-    // }
     try {
         const response = await fetch('https://www.lux.cloudnativeteam12.xyz/face-coordinates', {
             method: 'POST',
