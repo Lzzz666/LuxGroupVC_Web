@@ -39,6 +39,16 @@ const VideoCanvas = ({devices}) => {
           },
         });
 
+        const track = stream.getVideoTracks()[0];
+        const constraints = track.getCapabilities();
+        console.log('constraina:', constraints);
+        console.log('此鏡頭最大解析度:', constraints.height.max,'P');
+        if(constraints.width.max < selectedResolution.width || constraints.height.max < selectedResolution.height){
+          console.log('不支援的解析度');
+          alert('不支援的解析度');
+          return false;
+      }
+
         if (video.srcObject) {
           video.srcObject.getTracks().forEach((track) => track.stop());
         }
