@@ -8,10 +8,11 @@ import { detectFaces, sendFaceCoordinates } from './Canvas';
 import { clearAllStreams, checkConstraints, stopStreamAndDetection, gotStream } from './sidebarUseCase';
 import { useModel } from './useModel';
 
-const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, isVideoVisible,canvasRefs,panoflag,setPanoflag}) => {
+const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, isVideoVisible,canvasRefs,panoflag,setPanoflag,isDetect,setIsDetect}) => {
 
     const [curRes, setCurRes] = useState({});
     const [panobutton, setPanobutton] = useState(false);
+    const [aibutton, setAibutton] = useState(false);
     const label = { inputProps: { 'aria-label': 'Switch demo' } };
     const detectIntervals = useRef({});
     
@@ -29,6 +30,11 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
         clearAllStreams({streams,setStreams,setIsVideoVisible,videoRefs});
     };
     
+    const handleAI = () => {
+        setIsDetect(!isDetect);
+        setAibutton(!aibutton);
+        console.log(isDetect);
+    }
 
     const handleChangeResolution = async (deviceId, resolution,checked) => {
         setCurRes(prevResolutions => ({
@@ -42,9 +48,7 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
                 height: resolution.height
             }
         };
-        console.log('更改攝像頭解析度:', deviceId, constraints);
         if (streams[deviceId]) {
-            console.log('停止攝像頭:', deviceId);
             streams[deviceId].getTracks().forEach(track => track.stop());
         }
         if(checked){
@@ -64,20 +68,6 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
     
 
     const handleSwitchChange = (deviceId, checked) => {
-        console.log('deviceId:', deviceId, 'checked:', checked);
-        // if(panobutton && checked){
-        //     let flag = false;
-        //     for (let i = 0; i < devices.length; i++) {
-        //         if(isVideoVisible[devices[i].deviceId]){
-        //             flag = true;
-        //             break;
-        //         }
-        //     }
-        //     if(flag){
-        //         alert('全景模式只能開啟一個鏡頭');
-        //         return;
-        //     }
-        // }
         if(panobutton){
             alert('全景模式請利用選單調整');
             return;
@@ -108,30 +98,30 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
     // 處理面部檢測的 Effect
     useEffect(() => {
         // 清理之前的所有 intervals
-        Object.keys(detectIntervals.current).forEach(deviceId => {
-            clearInterval(detectIntervals.current[deviceId]);
-            delete detectIntervals.current[deviceId];
-        });
-        // 為每個活躍的視頻流設置新的檢測
-        videoRefs.current.forEach(({ ref, deviceId }) => {
-            if (model && ref.current && streams[deviceId]) {
-                console.log('開始偵測臉部:', deviceId);
-                
-                const canvasRef = canvasRefs.current.find(c => c.deviceId === deviceId)?.ref;
-                if (!canvasRef) return;
-
-                detectIntervals.current[deviceId] = setInterval(() => {
-                    detectFaces(model, ref.current, canvasRef, deviceId);
-                }, 100);
-            }
-        });
-        // 清理函數
-        return () => {
+        if(isDetect){
             Object.keys(detectIntervals.current).forEach(deviceId => {
                 clearInterval(detectIntervals.current[deviceId]);
+                delete detectIntervals.current[deviceId];
             });
-        };
-    }, [model, streams]);
+            // 為每個活躍的視頻流設置新的檢測
+            videoRefs.current.forEach(({ ref, deviceId }) => {
+                if (model && ref.current && streams[deviceId]) {
+                    const canvasRef = canvasRefs.current.find(c => c.deviceId === deviceId)?.ref;
+                    if (!canvasRef) return;
+    
+                    detectIntervals.current[deviceId] = setInterval(() => {
+                        detectFaces(model, ref.current, canvasRef, deviceId);
+                    }, 100);
+                }
+            });
+            // 清理函數
+            return () => {
+                Object.keys(detectIntervals.current).forEach(deviceId => {
+                    clearInterval(detectIntervals.current[deviceId]);
+                });
+            };
+        }
+    }, [model, streams,aibutton]);
 
 
     
@@ -161,6 +151,12 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
                 <label>
                     <input type="checkbox" onClick={handlepano}/>
                     <span>全景模式</span>
+                </label>
+            </div>
+            <div className="checkbox-wrapper">
+                <label>
+                    <input type="checkbox" onClick={handleAI}/>
+                    <span>人臉偵測</span>
                 </label>
             </div>
             <ScreenShot />

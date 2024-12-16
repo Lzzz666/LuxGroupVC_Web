@@ -7,7 +7,7 @@ import VideoCanvas from './pano';
 
 // Load the backend
 
-const Screen = ({devices,setDevices,videoRefs,isVideoVisible,canvasRefs,panoflag}) => {
+const Screen = ({devices,setDevices,videoRefs,isVideoVisible,canvasRefs,panoflag,isDetect}) => {
 
   const visibleVideoCount = Object.values(isVideoVisible).filter(visible => visible).length;
 
@@ -43,7 +43,7 @@ const Screen = ({devices,setDevices,videoRefs,isVideoVisible,canvasRefs,panoflag
               key={videoRef.deviceId}
             >
               <video className={`${visibleVideoCount === 1 ? 'large' : 'small'}`} ref={videoRef.ref} autoPlay playsInline />
-              <Canvas canvasRefs={canvasRefs} index={index} visibleVideoCount={visibleVideoCount} />
+              {isDetect ? <Canvas canvasRefs={canvasRefs} index={index} visibleVideoCount={visibleVideoCount} /> : null}
               <div className='overlay'>
                 <p>{devices[index]?.label || `鏡頭 ${index + 1}`}</p>
               </div>

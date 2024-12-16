@@ -7,6 +7,7 @@ import  Screen  from './components/Screen';
 function App() {
   const videoRefs = useRef([]); // 使用空數組來儲存 video 元素的引用
   const [panoflag, setPanoflag] = useState(false);
+  const [isDetect, setIsDetect] = useState(false);
   const [devices, setDevices] = useState([]); // 用於存儲設備列表
   const [streams, setStreams] = useState({}); // 存儲每個設備的流
   const [isVideoVisible, setIsVideoVisible] = useState({});
@@ -22,6 +23,8 @@ function App() {
                 canvasRefs={canvasRefs}
                 panoflag={panoflag}
                 setPanoflag={setPanoflag}
+                isDetect={isDetect}
+                setIsDetect={setIsDetect}
                 />
       <Screen devices={devices}
               setDevices={setDevices}
@@ -31,6 +34,7 @@ function App() {
               setIsVideoVisible={setIsVideoVisible}
               canvasRefs={canvasRefs}
               panoflag={panoflag}
+              isDetect={isDetect}
               />
     </>
   );
