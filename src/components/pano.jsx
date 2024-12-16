@@ -206,9 +206,9 @@ const VideoCanvas = ({devices}) => {
         );
     
         // 在主畫布上繪製框
-        videoCtx.strokeStyle = index === 0 ? 'green' : 'blue'; // 使用不同顏色區分框
-        videoCtx.lineWidth = 2;
-        videoCtx.strokeRect(x, y, zoomWidth, zoomHeight);
+        // videoCtx.strokeStyle = index === 0 ? 'green' : 'blue'; // 使用不同顏色區分框
+        // videoCtx.lineWidth = 2;
+        // videoCtx.strokeRect(x, y, zoomWidth, zoomHeight);
       });
     
       // 繼續下一幀

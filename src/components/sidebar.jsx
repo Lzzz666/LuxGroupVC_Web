@@ -47,17 +47,21 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
             console.log('停止攝像頭:', deviceId);
             streams[deviceId].getTracks().forEach(track => track.stop());
         }
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia(constraints);
-            if (!checkConstraints({stream, deviceId, constraints,handleSwitchChange})) return;
-            gotStream({videoRefs,stream,setStreams,setIsVideoVisible,deviceId,checked});
-        } catch (err) {
-            console.error('無法更改攝像頭解析度:', err.message);
-            alert('不支援的解析度');
-            handleSwitchChange(deviceId, false);
+        if(checked){
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                if (!checkConstraints({stream, deviceId, constraints,handleSwitchChange})) return;
+                gotStream({videoRefs,stream,setStreams,setIsVideoVisible,deviceId,checked});
+            } catch (err) {
+                console.error('無法更改攝像頭解析度:', err.message);
+                alert('不支援的解析度');
+                handleSwitchChange(deviceId, false);
+            }
         }
+
     };
 
+    
 
     const handleSwitchChange = (deviceId, checked) => {
         console.log('deviceId:', deviceId, 'checked:', checked);
