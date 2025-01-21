@@ -1,0 +1,1 @@
+import{cS as t,cQ as c,cP as o,cN as l,cR as n,cM as r,cO as b}from"./index-DToXWtim.js";/** @license See the LICENSE file. */const e="4.22.0";export{t as GPGPUContext,c as MathBackendWebGL,o as forceHalfFloat,l as gpgpu_util,n as setWebGLContext,e as version_webgl,r as webgl,b as webgl_util};
