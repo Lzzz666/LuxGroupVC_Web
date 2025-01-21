@@ -1,19 +1,17 @@
 import React, { useEffect} from 'react';
 import './Screen.css';
 import Canvas from './Canvas';
-import VideoCanvas from './pano';
-// import * as blazeface from '@tensorflow-models/blazeface';
-// import * as tf from '@tensorflow/tfjs';
+import Pano from './pano';
 
-// Load the backend
-
-const Screen = ({devices,setDevices,videoRefs,isVideoVisible,canvasRefs,panoflag,isDetect}) => {
+const Screen = ({devices,setDevices,videoRefs,isVideoVisible,canvasRefs,panoflag,isDetect,model,setModel,deviceRes,setDevicesRes}) => {
 
   const visibleVideoCount = Object.values(isVideoVisible).filter(visible => visible).length;
 
+
+  
   function gotDevices(devices) {
       const videoDevices = devices.filter(device => device.kind === 'videoinput');
-      setDevices(videoDevices); 
+      setDevices(videoDevices);
       videoRefs.current = videoDevices.map(device => ({ deviceId: device.deviceId, ref: React.createRef() }));
       canvasRefs.current = videoDevices.map(device => ({ deviceId: device.deviceId, ref: React.createRef() }));
   }
@@ -52,7 +50,7 @@ const Screen = ({devices,setDevices,videoRefs,isVideoVisible,canvasRefs,panoflag
         </div>
       ) : (
         <>
-          <VideoCanvas devices={devices}/>
+          {panoflag && (<Pano devices={devices} model={model} panoflag={panoflag} deviceRes={deviceRes} setDevicesRes={setDevicesRes} />)}
         </>
       )}
       

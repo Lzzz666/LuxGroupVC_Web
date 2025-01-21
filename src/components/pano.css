@@ -1,29 +1,146 @@
+
+.pano{
+    position: fixed;
+    margin-left: 220px;
+    /* border: 2px solid #111; */
+    width: calc(100% - 220px);  /* 計算剩餘的空間，即 100% 減去 220px */
+    height: 100vh;
+    /* border: 3px solid #111; */
+}
+
+.pano-select{
+    /* border: 1px solid red; */
+    top: 0px;
+    width: 100%;
+    height: 50px;
+}
+
 .pano-container {
     display: flex;
     flex-direction: column; /* 將子元素排列為垂直方向 */
     align-items: center;    /* 水平置中 */
     justify-content: center; /* 垂直置中 */
     gap: 10px;              /* 上下間距 */
-    margin-left: 10%;
-    height: 80vh;
+    height: 100vh;
     width: 100%;
     /* border: 1px solid #111; */
 }
-  
+
 .face-container {
-    display: inline-block;
-    gap: 1s0px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* 動態列數 */
+    grid-auto-rows: 180px; /* 每行元素的高度 */
+    gap: 10px; /* 元素間距 */
+    width: 100%;
+    height: 100vh; /* 佔滿整個視窗高度 */
+    /* border: 1px solid blue; */
+    padding: 10px; /* 添加內邊距讓內容不緊貼邊框 */
+    box-sizing: border-box; /* 確保 padding 不影響 width/height */
+}
+
+.face-container.grid-layout {
+    display: grid; /* 啟用網格佈局 */
+    grid-template-columns: repeat(3, 1fr); /* 兩列等寬 */
+    grid-auto-rows: auto;
+    width: 100%;
+    /* gap: 10px;  */
+    /* border: 2px solid green; 標記網格區域 */
+}
+
+/* .face-container.vertical-layout{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+    grid-auto-rows: 180px;
+    gap: 5px; 
+    width: 100%;
+    height: 100vh;
+    border: 1px solid blue;
+    box-sizing: border-box;
+} */
+
+.face-container.rec-layout2{
+    display: grid; /* 啟用網格佈局 */
+    grid-template-columns: repeat(2, 1fr); /* 兩列等寬 */
+    /* grid-auto-rows: 45vh; */
+    height: 100vh; /* 使用視窗高度，或者根據需求設置固定高度 */
+    width: 100%; /* 滿寬 */
+    /* gap: 10px; 元素間距 */
+    /* border: 2px solid red; */
+}
+
+.face-container.rec-layout3{
+    display: grid; /* 啟用網格佈局 */
+    grid-template-columns: repeat(3, 1fr); /* 三列等寬 */
+    /* grid-auto-rows: 45vh; */
+    height: 100vh; /* 使用視窗高度，或者根據需求設置固定高度 */
+    width: 100%; /* 滿寬 */
+    /* gap: 10px; 元素間距 */
+    /* border: 2px solid red; */
+}
+
+.face-container.rec-layout4{
+    display: grid; /* 啟用網格佈局 */
+    grid-template-columns: repeat(4, 1fr); /* 四列等寬 */
+    /* grid-auto-rows: 45vh; */
+    height: 100vh; /* 使用視窗高度，或者根據需求設置固定高度 */
+    width: 100%; /* 滿寬 */
+    /* gap: 10px; 元素間距 */
+    /* border: 2px solid red; */
+}
+
+
+.canvas-full {
+    width: 100%;
+    height: 90vh;
     /* border: 1px solid #111; */
-    width: 1000px;
+}
+/* .canvas-ver {
+    width: 100%;
+    height: 90vh;
+    border: 1px solid #111;
+} */
+.canvas-rec2 {
+    width: 100%;
+    aspect-ratio:  1 / 1.125;
+    /* border: 1px solid #111; */
+}
+.canvas-rec3 {
+    width: 100%;
+    aspect-ratio:  1 / 1.69;
+    /* border: 1px solid #111; */
+}
+.canvas-rec4 {
+    width: 100%;
+    aspect-ratio:  1 / 2.25;
+    /* border: 1px solid #111; */
+}
+
+.canvas-grid {
+    width: 100%;
+    height: 45vh;
+    /* border: 1px solid #111; */
+}
+
+
+
+
+@media (max-width: 850px) {
+    .pano{
+        margin-left: 0px;
+        width: 100%;
+    }
 }
 .smallcanvas {
-    width: 45%;
+    width: 100%;
+    aspect-ratio: 1 / 0.84;
     /* border: 1px solid #111; */
 }
 
 .maincanvas {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
+    width: 20%;
+    /* aspect-ratio:  4 / 3; */
+    position: fixed;
+    bottom: 10px;  /* 固定在底部 */
+    right: 10px;   /* 固定在右邊 */
     /* border: 1px solid #111; */
 }

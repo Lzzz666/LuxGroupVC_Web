@@ -1,6 +1,6 @@
 .stream {
-  width:40%;
-  margin: 1em;
+  width:45%;
+  /* margin: 1em; */
   /* padding: 1em; */
   color: rgb(0, 0, 0);
   border-radius: 0.45em;
@@ -10,9 +10,10 @@
 
 }
 .stream.large {
-  width: 100%; /* 設置為100%寬度 */
-  height: 100%; /* 設置為100%高度 */
-  /* margin-left: 0; 移除左邊距 */
+  margin-top: 20px;
+  width: 90%; /* 設置為100%寬度 */
+  height: 100%;
+  aspect-ratio: 16 / 9; /* 設置為16:9比例 */
 }
 
 .hidden {
@@ -24,34 +25,28 @@ video {
   height: auto; 
 }
 
-video.scale {
-  transform: scale(1.5); 
-  transform-origin: center; 
-  width: 100%; 
-  height: auto; 
-}
-
 video.large {
-  height: auto; /* 高度由比例決定 */
+
   width: 100%; /* 可調整寬度 */
   aspect-ratio: 16 / 9; /* 根據需要調整 */
+  border-radius: 0.45em;
 }
 
 video.small {
   height: auto; /* 高度由比例決定 */
   width: 100%; /* 可調整寬度 */
   aspect-ratio: 16 / 9; /* 根據需要調整 */
-  
+  border-radius: 0.45em;
 }
 
 .stream-container {
-  margin: 1em auto;
   display: flex;
   flex-wrap: wrap; /* 啟用換行 */
   align-items: center;
   justify-content: center;
-  margin-left: 6%;
-  height: 80vh;
+  margin-left: 220px;
+  width: calc(100% - 220px); /* 計算剩餘的空間，即 100% 減去 220px */
+  height: 100vh;
   /* border: 1px solid green; */
   aspect-ratio: 16 / 9;
 }
@@ -78,7 +73,7 @@ video.small {
 @media (max-width: 850px) {
   .stream-container {
     /* padding: 10px; */
-    margin: 1em auto;
+    margin-left: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -94,15 +89,4 @@ video.small {
 }
 .reload_img{
   width: 20px;
-}
-
-.panoramic_camera{
-  position: relative; 
-  /* border: 1px solid red; */
-  width: 55em;
-  margin-top: 10px;
-  /* height: 31em; */
-  align-items: center;
-  justify-content: center;
-  margin-left: 10%;
 }

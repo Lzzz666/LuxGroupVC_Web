@@ -3,15 +3,12 @@
     top: 0;
     left: 0; 
     width: 100%; /* 默認寬度 */
-    height: 100%;
-    /* border: 1px solid #000000; */
+    aspect-ratio: 16 / 9; 
 }
 .canvas{
     position: absolute;
     top: 0;
     left: 0; 
     width: 100%; /* 默認寬度 */
-    height: auto; /* 高度自適應 */
-    /* border: 1px solid #fc0000; */
     aspect-ratio: 16 / 9; 
 }
