@@ -28,21 +28,6 @@ export const clearAllStreams = ({streams,setStreams,setIsVideoVisible,videoRefs}
 
 
 
-// export const checkConstraints = async ({stream, deviceId, resolution,handleSwitchChange}) => {
-
-//     console.log(stream.getVideoTracks());
-//     const track = stream.getVideoTracks()[0];  // 錯在這裡
-//     const constraints = track.getCapabilities();
-    
-//     if(constraints.deviceId != deviceId ||constraints.width.max < resolution.video.width || constraints.height.max < resolution.video.height){
-//         alert('不支援的解析度:'+ resolution.video.width + 'x' + resolution.video.height);
-//         handleSwitchChange(deviceId, false);
-//         return false;
-//     }
-//     return true;
-// }
-
-
 export  const stopStreamAndDetection = ({deviceId,detectIntervals,streams,setStreams,setIsVideoVisible,videoRefs}) => {
     if (detectIntervals.current[deviceId]) {
         clearInterval(detectIntervals.current[deviceId]);

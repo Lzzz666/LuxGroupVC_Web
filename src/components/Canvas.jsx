@@ -45,9 +45,6 @@ export const detectFaces = async (model, videoRef, canvasRef,deviceId) => {
 
         })
     }
-    // if (faceCoordinates.length > 0) {
-    //     sendFaceCoordinates(faceCoordinates);
-    // }
 };
 
 export const sendFaceCoordinates = async (coordinates) => {

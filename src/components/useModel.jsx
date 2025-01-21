@@ -16,7 +16,7 @@ export const useModel = ({stopStreamAndDetection,detectIntervals,streams,setStre
             const detectorConfig = {
                 runtime: 'mediapipe',
                 modelType: 'full',
-                solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection`,
+                solutionPath: `/LuxGroupVC_Web/mediapipe/`,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
             };
             try{
                 const detector = await faceDetection.createDetector(fd, detectorConfig);
