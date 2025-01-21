@@ -2,7 +2,7 @@ import { useEffect,useState } from 'react';
 import '@mediapipe/face_detection';
 import '@tensorflow/tfjs-core';
 import '@tensorflow/tfjs-backend-webgl';
-import * as faceDetection from '@tensorflow-models/face-detection';
+import { SupportedModels, createDetector } from '@tensorflow-models/face-detection';
 
 
 export const useModel = ({stopStreamAndDetection,detectIntervals,streams,setStreams,setIsVideoVisible,videoRefs}) => {
@@ -12,14 +12,14 @@ export const useModel = ({stopStreamAndDetection,detectIntervals,streams,setStre
     
     useEffect(() => {
         const loadModel = async () => {
-            const fd = faceDetection.SupportedModels.MediaPipeFaceDetector;
+            const fd = SupportedModels.MediaPipeFaceDetector;
             const detectorConfig = {
                 runtime: 'mediapipe',
                 modelType: 'full',
                 solutionPath: `/LuxGroupVC_Web/mediapipe/`,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
             };
             try{
-                const detector = await faceDetection.createDetector(fd, detectorConfig);
+                const detector = await createDetector(fd, detectorConfig);
                 console.log('載入模型成功');
                 setModel(detector);
             } catch (error) {
