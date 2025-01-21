@@ -138,7 +138,7 @@ const Sidebar = ({ devices, videoRefs, streams ,setStreams, setIsVideoVisible, i
             
                 // 輸出當前解析度
                 console.log(`Current resolution: ${settings.width}x${settings.height}`);
-
+                console.log('im emoK');
                 supported.push(res);
                 stream.getTracks().forEach(track => track.stop()); // 停止攝像頭
             } catch {
