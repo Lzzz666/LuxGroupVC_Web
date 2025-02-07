@@ -50,7 +50,7 @@ const Screen = ({devices,setDevices,videoRefs,isVideoVisible,canvasRefs,panoflag
         </div>
       ) : (
         <>
-          {panoflag && (<Pano devices={devices} model={model} panoflag={panoflag} deviceRes={deviceRes} setDevicesRes={setDevicesRes} />)}
+          {panoflag && (<Pano devices={devices} model={model} panoflag={panoflag} deviceRes={deviceRes} />)}
         </>
       )}
       

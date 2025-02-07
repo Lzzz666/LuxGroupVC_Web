@@ -3,7 +3,7 @@ import { useState,useEffect, useRef } from 'react';
 import Switch from '@mui/material/Switch';
 import ScreenShot from './Screenshot';
 import './Sidebar.css';
-
+import React from 'react';  // 加入這一行
 import { detectFaces, sendFaceCoordinates } from './Canvas';
 import { clearAllStreams, stopStreamAndDetection, gotStream } from './sidebarUseCase';
 import { useModel } from './useModel';

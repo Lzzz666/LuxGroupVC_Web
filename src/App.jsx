@@ -1,6 +1,6 @@
 import {useRef, useState } from 'react';
 import './App.css';
-
+import React from 'react';  // 加入這一行
 import  Sidebar  from './components/Sidebar';
 import  Screen  from './components/Screen';
 

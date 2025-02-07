@@ -1,9 +1,4 @@
 import { useEffect,useState } from 'react';
-import '@mediapipe/face_detection';
-import '@tensorflow/tfjs-core';
-import '@tensorflow/tfjs-backend-webgl';
-import { SupportedModels, createDetector } from '@tensorflow-models/face-detection';
-
 
 export const useModel = ({stopStreamAndDetection,detectIntervals,streams,setStreams,setIsVideoVisible,videoRefs}) => {
     const [model, setModel] = useState(null);
@@ -12,11 +7,16 @@ export const useModel = ({stopStreamAndDetection,detectIntervals,streams,setStre
     
     useEffect(() => {
         const loadModel = async () => {
+            const { SupportedModels, createDetector } = await import('@tensorflow-models/face-detection');
+            await import('@tensorflow/tfjs-core');
+            await import('@tensorflow/tfjs-backend-webgl');
+            await import('@mediapipe/face_detection');
+
             const fd = SupportedModels.MediaPipeFaceDetector;
             const detectorConfig = {
                 runtime: 'mediapipe',
                 modelType: 'full',
-                solutionPath: `/LuxGroupVC_Web/mediapipe/`,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                solutionPath: `/mediapipe/`,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
             };
             try{
                 const detector = await createDetector(fd, detectorConfig);

@@ -4,15 +4,10 @@ import '@mediapipe/face_detection';
 import '@tensorflow/tfjs-core';
 import '@tensorflow/tfjs-backend-webgl';
 
-// import Test1 from '../assets/Test1.jpg';
-// import Test2 from '../assets/Test2.jpg';
-// import Test3 from '../assets/Test3.jpg';
-// import Test4 from '../assets/Test4.jpg';
-// import Test5 from '../assets/Test5.jpg';
-// import Test6 from '../assets/Test6.jpg';
 
 
-const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
+
+const Pano = ({devices,model,panoflag,deviceRes}) => {
   const videoCanvasRef = useRef(null);
   const firstzoomCanvasRef = useRef(null);
   const secondZoomCanvasRef = useRef(null);
@@ -28,7 +23,7 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
   const [selectedResolution, setSelectedResolution] = useState({ width: 1280, height: 720 });
   const [p, setP] = useState(0); // 用於控制渲染的 canvas 數量
   const [x, setX] = useState(0); // 控制拉桿的值
-
+  const video = videoRef.current;
 
   const handleCameraChange = (e) => {
     setSelectedDeviceId(e.target.value);
@@ -45,7 +40,7 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
   }
 
 
-  // ---- 先開啟第一個鏡頭 ---- //
+  // ---- 先設定第一個鏡頭/第一個解析度 ---- //
   useEffect(() => {
     const initCameras = async () => {
       const cameras = devices;
@@ -56,31 +51,39 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
       }
     };
     initCameras();
-    
   }, []);
   
-  useEffect(() => {console.log(panoflag)},[panoflag]);
 
   // ---- 解析度變更 ---- //
   useEffect(() => {
     if (!selectedDeviceId) return;
     const startStream = async () => {
-
-      const video = videoRef.current;
+      if (video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+      }
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: {
             deviceId: { exact: selectedDeviceId },
-            width: deviceRes[selectedDeviceId][0].width,
-            height: deviceRes[selectedDeviceId][0].height,
+            width: selectedResolution.width,
+            height: selectedResolution.height,
           },
         });
+        const videoTrack = stream.getVideoTracks()[0];
+        const settings = videoTrack.getSettings();
+
+        if (settings.width !== selectedResolution.width || settings.height !== selectedResolution.height) {
+          alert('解析度變更失敗，目標解析度 ' + selectedResolution.width + 'x' + selectedResolution.height +'目前解析度'+ settings.width + 'x' + settings.height);
+        }
+
+        console.log('Current resolution:', settings.width, settings.height);
 
         if (video.srcObject) {
           video.srcObject.getTracks().forEach((track) => track.stop());
         }
         video.srcObject = stream;
         video.play();
+        
         console.log('Switched to new camera:', selectedDeviceId);
       } catch (error) {
         console.error('無法訪問所選鏡頭:', error);
@@ -107,31 +110,21 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
     const fourthZoomCanvas = fourthZoomCanvasRef.current;
     const fifthZoomCanvas = fifthZoomCanvasRef.current;
     const sixthZoomCanvas = sixthZoomCanvasRef.current;
-    // ---- 加載圖片測試 ---- //
-
-    // console.log('Image loaded');
-    // const img = new Image();
-    // img.src =  Test4 // 替換為你的圖片路徑
-    // console.log(img.src);
-    
-    // img.onload = () => {
-    //   console.log('圖片加載完成');
-    //   // drawFrame(img, videoCanvas, firstzoomCanvas, secondZoomCanvas, thirdZoomCanvas, fourthZoomCanvas, fifthZoomCanvas, sixthZoomCanvas);
-    // };
 
     // ---- 初始化 video 元素 ---- //
     const video = document.createElement('video');
-    video.autoplay = true;
     videoRef.current = video;
 
-
+    setSelectedResolution({width: selectedResolution.width, height: selectedResolution.height });
     // 1. 獲取鏡頭影像流
     navigator.mediaDevices
     .getUserMedia({          
-      video: { deviceId: { exact: selectedDeviceId },
-      width: selectedResolution.width,
-      height: selectedResolution.height,
-    }, })
+      video: {
+        deviceId: { exact: selectedDeviceId },
+        width: selectedResolution.width,
+        height: selectedResolution.height,
+      }, })
+
     .then((stream) => {
       video.srcObject = stream;
       video.play();
@@ -146,13 +139,11 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
 
     let preZoomPositions = [];
 
-    // 3. 人臉檢測
+    // 3. 人臉檢測  
     const detectFace = async (model, video, videoCanvas) => {
       if (!model) return;
       try {
         const predictions = await model.estimateFaces(video);
-        console.log("predictions:",predictions);
-        console.log("video width:",video.videoWidth, video.videoHeight);//1600 x 1200
         const videoWidth = video.videoWidth + x;
         if (predictions.length > 0) { 
           switch (predictions.length) {
@@ -185,9 +176,6 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
         }
           const scaleX = videoCanvas.width / video.videoWidth;
           const scaleY = videoCanvas.height / video.videoHeight;
-          // ---- 圖片用這個 ---- //
-          // const scaleX = videoCanvas.width / video.width; // 根據圖片大小調整
-          // const scaleY = videoCanvas.height / video.height;
           
           preZoomPositions = predictions.slice(0, 6).map((face, index) => {
             const { xMin, yMin,xMax,yMax} = face.box;
@@ -207,7 +195,7 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
             const deltaX = Math.abs(newZoomX - preZoom.x);
             const deltaY = Math.abs(newZoomY - preZoom.y);
     
-            const threshold = 30; // 減小閾值
+            const threshold = 40; // 減小閾值
             const zoomX = deltaX > threshold ? newZoomX : preZoom.x;
             const zoomY = deltaY > threshold ? newZoomY : preZoom.y;
     
@@ -232,22 +220,38 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
 
     // 4.主畫面繪製循環
     const drawFrame = (video, videoCanvas, firstzoomCanvas,secondZoomCanvas, thirdZoomCanvas,fourthZoomCanvas,fifthZoomCanvas,sixthZoomCanvas) => {
-      if(panoflag == false){return;}
-      videoCtx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
-      firstzoomCtx.clearRect(0, 0, firstzoomCanvas.width, firstzoomCanvas.height);
-      secondZoomCtx.clearRect(0, 0, secondZoomCanvas.width, secondZoomCanvas.height);
-      thirdZoomCtx.clearRect(0, 0, thirdZoomCanvas.width, thirdZoomCanvas.height);
-      fourthZoomCtx.clearRect(0, 0, fourthZoomCanvas.width, fourthZoomCanvas.height);
-      fifthZoomCtx.clearRect(0, 0, fifthZoomCanvas.width, fifthZoomCanvas.height);
-      sixthZoomCtx.clearRect(0, 0, sixthZoomCanvas.width, sixthZoomCanvas.height);
-      console.log(panoflag)
+
+
+      firstzoomCanvas.width = videoCanvas.width;
+      firstzoomCanvas.height = videoCanvas.height;
+      secondZoomCanvas.width = videoCanvas.width;
+      secondZoomCanvas.height = videoCanvas.height;
+      thirdZoomCanvas.width = videoCanvas.width;
+      thirdZoomCanvas.height = videoCanvas.height;
+      fourthZoomCanvas.width = videoCanvas.width;
+      fourthZoomCanvas.height = videoCanvas.height;
+      fifthZoomCanvas.width = videoCanvas.width;
+      fifthZoomCanvas.height = videoCanvas.height;
+      sixthZoomCanvas.width = videoCanvas.width;
+      sixthZoomCanvas.height = videoCanvas.height;
+
+      // videoCtx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
+      // firstzoomCtx.clearRect(0, 0, firstzoomCanvas.width, firstzoomCanvas.height);
+      // secondZoomCtx.clearRect(0, 0, secondZoomCanvas.width, secondZoomCanvas.height);
+      // thirdZoomCtx.clearRect(0, 0, thirdZoomCanvas.width, thirdZoomCanvas.height);
+      // fourthZoomCtx.clearRect(0, 0, fourthZoomCanvas.width, fourthZoomCanvas.height);
+      // fifthZoomCtx.clearRect(0, 0, fifthZoomCanvas.width, fifthZoomCanvas.height);
+      // sixthZoomCtx.clearRect(0, 0, sixthZoomCanvas.width, sixthZoomCanvas.height);
+      
       videoCtx.drawImage(video, 0, 0, videoCanvas.width, videoCanvas.height);
       preZoomPositions.forEach(({ x, y }, index) => {
         const targetCtx = index === 0 ? firstzoomCtx : (index === 1 ? secondZoomCtx : (index === 2 ? thirdZoomCtx : (index === 3 ? fourthZoomCtx : (index === 4 ? fifthZoomCtx : sixthZoomCtx))))
-        console.log("video:",video.videoWidth, video.videoHeight); // 鏡頭解析度 640 x 360
-        console.log("zoom:",zoomWidth, zoomHeight);  // 框框的大小 240 x ...
-        console.log("firstzoom:",firstzoomCanvas.width, firstzoomCanvas.height);  // 目標畫布大小  300 x 150
-        console.log("videoCanvas",videoCanvas.width, videoCanvas.height); // 主畫布大小 1920 x 1080
+        // console.log("video:",video.videoWidth, video.videoHeight); // 鏡頭解析度
+        // console.log("zoom:",zoomWidth, zoomHeight);  // 框框的大小
+        // console.log("firstzoom:",firstzoomCanvas.width, firstzoomCanvas.height);  // 目標畫布大小
+        // console.log("videoCanvas",videoCanvas.width, videoCanvas.height); // 主畫布大小
+
+
         targetCtx.drawImage(
           video,
           x,
@@ -256,7 +260,7 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
           zoomHeight,
           0,
           0,
-          firstzoomCanvas.width ,
+          firstzoomCanvas.width,
           firstzoomCanvas.height
         );
         setP(index + 1);
@@ -277,17 +281,15 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
       if (intervalId) clearInterval(intervalId);
       drawFrame(video, videoCanvas, firstzoomCanvas, secondZoomCanvas,thirdZoomCanvas,fourthZoomCanvas,fifthZoomCanvas,sixthZoomCanvas);
       intervalId = setInterval(() => {
-        videoCtx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
-        firstzoomCtx.clearRect(0, 0, firstzoomCanvas.width, firstzoomCanvas.height);
-        secondZoomCtx.clearRect(0, 0, secondZoomCanvas.width, secondZoomCanvas.height);
-        thirdZoomCtx.clearRect(0, 0, thirdZoomCanvas.width, thirdZoomCanvas.height);
-        fourthZoomCtx.clearRect(0, 0, fourthZoomCanvas.width, fourthZoomCanvas.height);
-        fifthZoomCtx.clearRect(0, 0, fifthZoomCanvas.width, fifthZoomCanvas.height);
-        sixthZoomCtx.clearRect(0, 0, sixthZoomCanvas.width, sixthZoomCanvas.height);
+        // videoCtx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
+        // firstzoomCtx.clearRect(0, 0, firstzoomCanvas.width, firstzoomCanvas.height);
+        // secondZoomCtx.clearRect(0, 0, secondZoomCanvas.width, secondZoomCanvas.height);
+        // thirdZoomCtx.clearRect(0, 0, thirdZoomCanvas.width, thirdZoomCanvas.height);
+        // fourthZoomCtx.clearRect(0, 0, fourthZoomCanvas.width, fourthZoomCanvas.height);
+        // fifthZoomCtx.clearRect(0, 0, fifthZoomCanvas.width, fifthZoomCanvas.height);
+        // sixthZoomCtx.clearRect(0, 0, sixthZoomCanvas.width, sixthZoomCanvas.height);
         detectFace(model, video, videoCanvas);
       }, 2500);  // 4 秒執行一次
-      
-     
     };
 
     start(model, video, videoCanvas, firstzoomCanvas, secondZoomCanvas,thirdZoomCanvas,fourthZoomCanvas,fifthZoomCanvas,sixthZoomCanvas);
@@ -299,7 +301,7 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
       if (intervalId) clearInterval(intervalId);
     };
     
-  }, [p,x,panoflag]);
+  }, [p]);
 
 
   // ---- 根據 `p` 值渲染對應數量的 canvas ---- //
@@ -440,7 +442,7 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
           ))}
         </select>
 
-        <div>
+        {/* <div>
           <label htmlFor="widthSlider">調整人物大小:</label>
           <input
             id="widthSlider"
@@ -451,7 +453,7 @@ const Pano = ({devices,model,panoflag,deviceRes,setDevicesRes}) => {
             onChange={(e) => handleXchange(e)}
           />
           <span>{x}</span>
-      </div>
+      </div> */}
       </div>
       <div className="pano-container">
         {renderCanvases()}

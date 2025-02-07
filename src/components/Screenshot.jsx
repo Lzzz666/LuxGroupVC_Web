@@ -1,6 +1,7 @@
 
 import {useRef, useState} from "react";
 import './Screenshot.css';
+import React from 'react';  // 加入這一行
 const data = []
 let stream;
 
