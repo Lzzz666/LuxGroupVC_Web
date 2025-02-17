@@ -1,47 +1,91 @@
+/* ------------------ */
+/* 🏠 Sidebar 美化   */
+/* ------------------ */
 .sidebar {
-
-  width: 220px; 
-  background-color: #f4f4f4; 
-  padding: 20px; 
+  width: 240px;
+  background: linear-gradient(135deg, #eceff1, #dde9ee); 
+  padding: 20px;
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%; 
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  /* border: 1px solid red; */
+  height: 100%;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
   box-sizing: border-box;
+  border-radius: 0 6px 6px 0; /* 圓角 */
+  transition: transform 0.3s ease-in-out;
 }
+
+.sidebar:hover {
+  transform: translateX(2px);
+}
+
 @media (max-width: 850px) {
   .sidebar {
-      display: none; /* 在寬度小於 768px 時隱藏側邊欄 */
+    transform: translateX(-100%);
   }
 }
 
-.checkbox-wrapper{
+/* ------------------ */
+/* ✅ Checkbox 美化   */
+/* ------------------ */
+.checkbox-wrapper {
   margin: 15px;
   text-align: start;
-  border: 1px solid #776f6f96;
-  border-radius: 0.45em;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(200, 200, 200, 0.2);
+  transition:  0.3s ease-in-out;
 }
 
-.list-bar{
-  text-align: left ;
+.checkbox-wrapper:hover {
+  background: rgba(180, 180, 180, 0.3);
 }
-.buttom-bar{
-  text-align: center;
+
+.checkbox-wrapper input[type="checkbox"] {
+  vertical-align: middle; /* 或使用 top, bottom, baseline */
+  appearance: none; /* 隱藏原生 Checkbox */
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #607d8b;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s;
 }
-.loading{
+
+.checkbox-wrapper input[type="checkbox"]:checked {
+  background: #1e88e5;
+  border: 2px solid #1e88e5;
+}
+
+.checkbox-wrapper input[type="checkbox"]:checked::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ------------------ */
+/* 🔄 Loading 美化   */
+/* ------------------ */
+.loading {
   text-align: center;
   margin-top: 50px;
 }
 
 .loading-spinner {
-  border: 4px solid #f3f3f3; /* 淺灰色外框 */
-  border-top: 4px solid #3498db; /* 藍色頂部 */
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #1e88e5;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   margin: 20px auto;
 }
 
@@ -52,4 +96,126 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* ------------------ */
+/* 📌 List & Button 美化 */
+/* ------------------ */
+.list-bar {
+  text-align: center;
+  /* font-weight: bold; */
+  font-size: 1rem;
+}
+
+.buttom-bar {
+  text-align: left;
+  font-weight:500;
+  font-size: 15px;
+}
+
+.buttom-bar button {
+  padding: 8px 15px;
+  border-radius: 6px;
+  background: #1e88e5;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.resolution-select{
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #1e88e5c0;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-left: 50px;
+  
+}
+
+.buttom-bar button:hover {
+  background: #1565c0;
+}
+
+
+.checkbox-wrapper-video input[type="checkbox"] {
+  vertical-align: middle; /* 或使用 top, bottom, baseline */
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #607d8b;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+/* ✔️ 點擊時變成紅色並閃爍 */
+.checkbox-wrapper-video input[type="checkbox"]:checked {
+  background: red;
+  border: 2px solid red;
+  animation: blink 0.5s infinite alternate;
+}
+
+.checkbox-wrapper-video input[type="checkbox"]:checked::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ✨ 閃爍動畫 */
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+.tag{
+  text-align: left;
+  color: gray ;
+  font-size: 14px;
+}
+.function-box{
+  position: fixed;
+  bottom: 0px;
+}
+.function-bar {
+  display: flex;
+  align-items: center; /* 垂直置中對齊 */
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+.icon {
+  width: 15px; /* 設定圖示的寬度 */
+  height: 15px; /* 設定圖示的高度 */
+  margin-right: 10px;
+  opacity: 0.5; /* 設定圖示的透明度為 50% */
+}
+.small-icon {
+  width: 20px;
+  height: 20px;
+  margin: 20px;
+  opacity: 0.5;
+
+}
+.camera-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  opacity: 0.5;
+}
+h2{
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
