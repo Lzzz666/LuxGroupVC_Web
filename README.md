@@ -5,7 +5,7 @@
 This project is a **multi-streams demo platform** developed using **ReactJS**. It is designed to showcase multiple camera devices simultaneously, allowing users to compare and analyze their image results in real-time.
 
 ## Quick use
-https://lzzz666.github.io/LuxGroupVC_Web/
+[https://lzzz666.github.io/LuxGroupVC_Web/](https://ca2f-18-183-189-149.ngrok-free.app/)
 
 ## Features
 
@@ -66,8 +66,6 @@ Ensure you have the following installed on your system:
 - **CSS/SCSS**: For custom styling and responsive layouts.
 
 
-## Todo
-- **Take photo**
-- **flex size**
-- **Support 4k**
-- **Image-recognition**
+## UI 
+![image](https://github.com/user-attachments/assets/33516217-870b-4098-b838-bec48a07cb45)
+
