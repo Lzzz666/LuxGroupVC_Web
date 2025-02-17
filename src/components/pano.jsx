@@ -20,7 +20,7 @@ const Pano = ({devices,model,panoflag,deviceRes}) => {
   
   const [videoInputs, setVideoInputs] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
-  const [selectedResolution, setSelectedResolution] = useState({ width: 1280, height: 720 });
+  const [selectedResolution, setSelectedResolution] = useState({ width: 3840, height: 2160 }); // 這裡預設希望是 3840 x 2160
   const [p, setP] = useState(0); // 用於控制渲染的 canvas 數量
   const [x, setX] = useState(0); // 控制拉桿的值
   const video = videoRef.current;
@@ -45,9 +45,23 @@ const Pano = ({devices,model,panoflag,deviceRes}) => {
     const initCameras = async () => {
       const cameras = devices;
       setVideoInputs(cameras);
-      if (cameras.length > 0) {
-        setSelectedDeviceId(cameras[0].deviceId); // 預設選擇第一個鏡頭
-        setSelectedResolution({ width: deviceRes[cameras[0].deviceId][0].width, height: deviceRes[cameras[0].deviceId][0].height });
+      const cupolaCamera = cameras.find(camera => camera.label.toLowerCase().includes("cupola"));
+      if (cupolaCamera) {
+        setSelectedDeviceId(cupolaCamera.deviceId);
+        setSelectedResolution({
+          width: 3840,
+          height: 2160
+        });
+      } else if (cameras.length > 0) {
+        // 如果找不到 Cupola，就用默认第一个
+        console.log('找不到 Cupola 相機，請連接 Cupola 相機');
+        alert('找不到 Cupola 相機，請連接 Cupola ');
+        return;
+        // setSelectedDeviceId(cameras[0].deviceId);
+        // setSelectedResolution({
+        //   width: deviceRes[cameras[0].deviceId][0].width,
+        //   height: deviceRes[cameras[0].deviceId][0].height
+        // });
       }
     };
     initCameras();
@@ -65,8 +79,8 @@ const Pano = ({devices,model,panoflag,deviceRes}) => {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: {
             deviceId: { exact: selectedDeviceId },
-            width: selectedResolution.width,
-            height: selectedResolution.height,
+            width: { exact: selectedResolution.width },
+            height: { exact: selectedResolution.height },
           },
         });
         const videoTrack = stream.getVideoTracks()[0];
@@ -121,13 +135,15 @@ const Pano = ({devices,model,panoflag,deviceRes}) => {
     .getUserMedia({          
       video: {
         deviceId: { exact: selectedDeviceId },
-        width: selectedResolution.width,
-        height: selectedResolution.height,
+        // width: selectedResolution.width,
+        // height: selectedResolution.height,
+        width: { exact: selectedResolution.width },
+        height: { exact: selectedResolution.height },
       }, })
 
     .then((stream) => {
       video.srcObject = stream;
-      video.play();
+      // video.play();
       console.log('訪問相機成功');
     })
     .catch((error) => {
@@ -144,7 +160,7 @@ const Pano = ({devices,model,panoflag,deviceRes}) => {
       if (!model) return;
       try {
         const predictions = await model.estimateFaces(video);
-        const videoWidth = video.videoWidth + x;
+        const videoWidth = video.videoWidth /2;
         if (predictions.length > 0) { 
           switch (predictions.length) {
             case 1:
@@ -202,7 +218,7 @@ const Pano = ({devices,model,panoflag,deviceRes}) => {
             return { x: zoomX, y: zoomY }; // 這裡應該也要返回人臉的寬度和高度
           });
         } else {
-          preZoomPositions = [];
+          // preZoomPositions = [];
           setP(0)
         }
       } catch (error) {
@@ -266,7 +282,7 @@ const Pano = ({devices,model,panoflag,deviceRes}) => {
         setP(index + 1);
         // ---- 畫框框 ---- //
         // videoCtx.beginPath();
-        // videoCtx.lineWidth = "1";
+        // videoCtx.lineWidth = "2";
         // videoCtx.strokeStyle = "blue";
         // videoCtx.rect(x, y, zoomWidth, zoomHeight);
         // videoCtx.stroke();
@@ -288,8 +304,10 @@ const Pano = ({devices,model,panoflag,deviceRes}) => {
         // fourthZoomCtx.clearRect(0, 0, fourthZoomCanvas.width, fourthZoomCanvas.height);
         // fifthZoomCtx.clearRect(0, 0, fifthZoomCanvas.width, fifthZoomCanvas.height);
         // sixthZoomCtx.clearRect(0, 0, sixthZoomCanvas.width, sixthZoomCanvas.height);
+        // preZoomPositions = [];
         detectFace(model, video, videoCanvas);
-      }, 2500);  // 4 秒執行一次
+        
+      }, 3000);  // 4 秒執行一次
     };
 
     start(model, video, videoCanvas, firstzoomCanvas, secondZoomCanvas,thirdZoomCanvas,fourthZoomCanvas,fifthZoomCanvas,sixthZoomCanvas);
@@ -422,16 +440,16 @@ const Pano = ({devices,model,panoflag,deviceRes}) => {
   return (
     <div className='pano'>
       <div className='pano-select'>
-        <select onChange={handleCameraChange} value={selectedDeviceId || ''}>
+        {/* <select onChange={handleCameraChange} value={selectedDeviceId || ''}>
           {videoInputs.map((device) => (
             <option key={device.deviceId} value={device.deviceId}>
               {device.label || `Camera ${device.deviceId}`}
             </option>
           ))}
-        </select>
+        </select> */}
 
         
-        <select
+        {/* <select
           onChange={handleResolutionChange}
           value={`${selectedResolution.width}x${selectedResolution.height}`}
         >
@@ -440,7 +458,7 @@ const Pano = ({devices,model,panoflag,deviceRes}) => {
               {`${res.width}x${res.height}`}
             </option>
           ))}
-        </select>
+        </select> */}
 
         {/* <div>
           <label htmlFor="widthSlider">調整人物大小:</label>
